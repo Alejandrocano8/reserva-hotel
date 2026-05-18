@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reserva de Habitaciones</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">🏨 Reserva de Habitaciones</h1>
+            <div class="nav-links">
+                <a href="#" onclick="mostrarSeccion('inicio')">Inicio</a>
+                <a href="#" onclick="mostrarSeccion('habitaciones')">Habitaciones</a>
+                <a href="#" id="loginBtn" onclick="abrirLoginModal()">Login</a>
+                <a href="#" id="logoutBtn" style="display:none;" onclick="logout()">Logout</a>
+                <a href="#" id="miReservasBtn" style="display:none;" onclick="irAlDashboard()">Mi Cuenta</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal de Login/Registro -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarLoginModal()">&times;</span>
+            <div class="login-container">
+                <div class="login-tabs">
+                    <button class="tab-btn active" onclick="mostrarTab('login-tab')">Login</button>
+                    <button class="tab-btn" onclick="mostrarTab('registro-tab')">Registro</button>
+                </div>
+
+                <!-- Login -->
+                <div id="login-tab" class="tab-content active">
+                    <h2>Iniciar Sesión</h2>
+                    <form onsubmit="loginUsuario(event)">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                        <button type="submit">Ingresar</button>
+                    </form>
+                </div>
+
+                <!-- Registro -->
+                <div id="registro-tab" class="tab-content">
+                    <h2>Crear Cuenta</h2>
+                    <form onsubmit="registroUsuario(event)">
+                        <input type="text" id="regNombre" placeholder="Nombre Completo" required>
+                        <input type="email" id="regEmail" placeholder="Email" required>
+                        <input type="password" id="regPassword" placeholder="Contraseña" required>
+                        <input type="tel" id="regTelefono" placeholder="Teléfono" required>
+                        <button type="submit">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secciones del contenido -->
+    <div class="container">
+        <!-- Inicio -->
+        <section id="inicio" class="seccion active">
+            <div class="hero">
+                <h2>Bienvenido a Nuestro Sistema de Reservas</h2>
+                <p>Encuentra y reserva la habitación perfecta para tu estadía</p>
+                <button onclick="mostrarSeccion('habitaciones')" class="btn-primary">Ver Habitaciones</button>
+            </div>
+        </section>
+
+        <!-- Habitaciones disponibles -->
+        <section id="habitaciones" class="seccion">
+            <h2>Habitaciones Disponibles</h2>
+            <div class="filtros">
+                <input type="date" id="filtroFechaInicio" placeholder="Fecha de inicio">
+                <input type="date" id="filtroFechaFin" placeholder="Fecha de fin">
+                <button onclick="cargarHabitaciones()">Buscar</button>
+            </div>
+            <div id="habitacionesGrid" class="grid">
+                <!-- Se llena dinámicamente -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para detalles de habitación -->
+    <div id="habitacionModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="cerrarHabitacionModal()">&times;</span>
+            <div id="habitacionDetalles"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistema de Reserva de Habitaciones. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

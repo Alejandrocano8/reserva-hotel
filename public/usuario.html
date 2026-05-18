@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - Sistema de Reservas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">🏨 Mi Cuenta</h1>
+            <div class="nav-links">
+                <a href="/">Volver al inicio</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>Menú</h3>
+                <ul>
+                    <li><a href="#" onclick="mostrarSeccion('perfil')" class="menu-link active" data-seccion="perfil">Mi Perfil</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('mis-reservas')" class="menu-link" data-seccion="mis-reservas">Mis Reservas</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('nueva-reserva')" class="menu-link" data-seccion="nueva-reserva">Nueva Reserva</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="dashboard-content">
+                <!-- Perfil del usuario -->
+                <section id="perfil" class="dashboard-seccion active">
+                    <h2>Mi Perfil</h2>
+                    <div id="perfilInfo" class="card">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Mis Reservas -->
+                <section id="mis-reservas" class="dashboard-seccion">
+                    <h2>Mis Reservas</h2>
+                    <div id="misReservasContainer">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Nueva Reserva -->
+                <section id="nueva-reserva" class="dashboard-seccion">
+                    <h2>Hacer una Nueva Reserva</h2>
+                    <div class="card">
+                        <div class="filtros">
+                            <h3>Buscar habitaciones disponibles</h3>
+                            <input type="date" id="novaFechaInicio" placeholder="Fecha de inicio" required>
+                            <input type="date" id="novaFechaFin" placeholder="Fecha de fin" required>
+                            <button onclick="buscarHabitacionesDisponibles()" class="btn-primary">Buscar</button>
+                        </div>
+                        <div id="habitacionesDisponiblesContainer" class="grid" style="margin-top: 20px;">
+                            <!-- Se llena dinámicamente -->
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para nueva reserva -->
+    <div id="reservaModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="cerrarReservaModal()">&times;</span>
+            <div id="formularioReserva"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistema de Reserva de Habitaciones.</p>
+    </footer>
+
+    <script src="usuario.js"></script>
+</body>
+</html>

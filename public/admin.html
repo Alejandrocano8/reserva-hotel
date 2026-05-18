@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Sistema de Reservas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">⚙️ Panel Administrativo</h1>
+            <div class="nav-links">
+                <a href="/">Volver al inicio</a>
+                <a href="#" onclick="logoutAdmin()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-container">
+            <!-- Sidebar Admin -->
+            <aside class="sidebar">
+                <h3>Panel Admin</h3>
+                <ul>
+                    <li><a href="#" onclick="mostrarSeccion('dashboard')" class="menu-link active" data-seccion="dashboard">Dashboard</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('habitaciones')" class="menu-link" data-seccion="habitaciones">Habitaciones</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('reservas')" class="menu-link" data-seccion="reservas">Reservas</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('usuarios')" class="menu-link" data-seccion="usuarios">Usuarios</a></li>
+                    <li><a href="#" onclick="mostrarSeccion('mantenimiento')" class="menu-link" data-seccion="mantenimiento">Mantenimiento</a></li>
+                </ul>
+            </aside>
+
+            <!-- Contenido principal -->
+            <main class="dashboard-content">
+                <!-- Dashboard -->
+                <section id="dashboard" class="dashboard-seccion active">
+                    <h2>Dashboard</h2>
+                    <div id="dashboardStats" class="stats-grid">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Gestión de Habitaciones -->
+                <section id="habitaciones" class="dashboard-seccion">
+                    <h2>Gestión de Habitaciones</h2>
+                    <button onclick="abrirFormularioHabitacion()" class="btn-primary">+ Nueva Habitación</button>
+                    <div id="habitacionesTable" style="margin-top: 20px;">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Gestión de Reservas -->
+                <section id="reservas" class="dashboard-seccion">
+                    <h2>Gestión de Reservas</h2>
+                    <div id="reservasTable">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Gestión de Usuarios -->
+                <section id="usuarios" class="dashboard-seccion">
+                    <h2>Gestión de Usuarios Registrados</h2>
+                    <div id="usuariosTable">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Mantenimiento -->
+                <section id="mantenimiento" class="dashboard-seccion">
+                    <h2>Gestión de Mantenimiento</h2>
+                    <button onclick="abrirFormularioMantenimiento()" class="btn-primary">+ Programar Mantenimiento</button>
+                    <div id="mantenimientoTable" style="margin-top: 20px;">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal para nueva habitación -->
+    <div id="habitacionFormModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="cerrarFormularioHabitacion()">&times;</span>
+            <form id="formularioHabitacion" onsubmit="crearHabitacion(event)">
+                <h2>Nueva Habitación</h2>
+                <input type="text" id="numHabitacion" placeholder="Número de Habitación" required>
+                <select id="tipoHabitacion" required>
+                    <option value="">Seleccionar tipo</option>
+                    <option value="individual">Individual</option>
+                    <option value="doble">Doble</option>
+                    <option value="suite">Suite</option>
+                </select>
+                <input type="number" id="capacidadHabitacion" placeholder="Capacidad" required>
+                <input type="number" id="precioHabitacion" placeholder="Precio por noche" step="0.01" required>
+                <textarea id="descripcionHabitacion" placeholder="Descripción"></textarea>
+                <input type="text" id="imagenUrlHabitacion" placeholder="URL de imagen">
+                <button type="submit" class="btn-primary">Crear Habitación</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para mantenimiento -->
+    <div id="mantenimientoFormModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="cerrarFormularioMantenimiento()">&times;</span>
+            <form id="formularioMantenimiento" onsubmit="crearMantenimiento(event)">
+                <h2>Programar Mantenimiento</h2>
+                <select id="habitacionMantenimiento" required>
+                    <option value="">Seleccionar habitación</option>
+                    <!-- Se llena dinámicamente -->
+                </select>
+                <input type="date" id="fechaInicioMantenimiento" required>
+                <input type="date" id="fechaFinMantenimiento">
+                <textarea id="descripcionMantenimiento" placeholder="Descripción del mantenimiento"></textarea>
+                <button type="submit" class="btn-primary">Registrar Mantenimiento</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Sistema de Reserva de Habitaciones.</p>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
