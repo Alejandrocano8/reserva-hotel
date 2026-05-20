@@ -1,6 +1,6 @@
 // Script para crear un usuario admin de prueba
 const bcrypt = require('bcryptjs');
-const { db } = require('./config/database');
+const { db } = require('../config/database');
 
 // Esperar a que la base de datos esté lista
 setTimeout(() => {
