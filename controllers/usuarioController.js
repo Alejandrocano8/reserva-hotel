@@ -1,42 +1,54 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { db } = require('../config/database');
+const { supabase } = require('../config/database');
 
-// Registro de usuario
-exports.registroUsuario = (req, res) => {
-  const { nombre, email, contraseña, teléfono } = req.body;
+exports.registroUsuario = async (req, res) => {
+  try {
+    const { nombre, email, contraseña, teléfono } = req.body;
 
-  if (!nombre || !email || !contraseña) {
-    return res.status(400).json({ error: 'Faltan datos requeridos' });
-  }
+    if (!nombre || !email || !contraseña) {
+      return res.status(400).json({ error: 'Faltan datos requeridos' });
+    }
 
-  const hashedPassword = bcrypt.hashSync(contraseña, 10);
+    const hashedPassword = bcrypt.hashSync(contraseña, 10);
 
-  db.run(
-    'INSERT INTO usuarios (nombre, email, contraseña, teléfono) VALUES (?, ?, ?, ?)',
-    [nombre, email, hashedPassword, teléfono],
-    function(err) {
-      if (err) {
+    const { data, error } = await supabase
+      .from('usuarios')
+      .insert({ nombre, email, contraseña: hashedPassword, teléfono })
+      .select('id')
+      .single();
+
+    if (error) {
+      if (error.code === '23505') {
         return res.status(400).json({ error: 'El email ya está registrado' });
       }
-      res.status(201).json({ 
-        mensaje: 'Usuario registrado exitosamente',
-        usuario_id: this.lastID
-      });
+      return res.status(400).json({ error: 'Error al registrar usuario' });
     }
-  );
+
+    res.status(201).json({
+      mensaje: 'Usuario registrado exitosamente',
+      usuario_id: data.id
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al registrar usuario' });
+  }
 };
 
-// Login de usuario
-exports.loginUsuario = (req, res) => {
-  const { email, contraseña } = req.body;
+exports.loginUsuario = async (req, res) => {
+  try {
+    const { email, contraseña } = req.body;
 
-  if (!email || !contraseña) {
-    return res.status(400).json({ error: 'Email y contraseña requeridos' });
-  }
+    if (!email || !contraseña) {
+      return res.status(400).json({ error: 'Email y contraseña requeridos' });
+    }
 
-  db.get('SELECT * FROM usuarios WHERE email = ?', [email], (err, usuario) => {
-    if (err || !usuario) {
+    const { data: usuario, error } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (error || !usuario) {
       return res.status(401).json({ error: 'Email o contraseña incorrectos' });
     }
 
@@ -60,18 +72,25 @@ exports.loginUsuario = (req, res) => {
         rol: usuario.rol
       }
     });
-  });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al iniciar sesión' });
+  }
 };
 
-// Obtener perfil del usuario
-exports.obtenerPerfil = (req, res) => {
-  db.get('SELECT id, nombre, email, teléfono, rol FROM usuarios WHERE id = ?', 
-    [req.usuario.id], 
-    (err, usuario) => {
-      if (err || !usuario) {
-        return res.status(404).json({ error: 'Usuario no encontrado' });
-      }
-      res.json(usuario);
+exports.obtenerPerfil = async (req, res) => {
+  try {
+    const { data: usuario, error } = await supabase
+      .from('usuarios')
+      .select('id, nombre, email, teléfono, rol')
+      .eq('id', req.usuario.id)
+      .single();
+
+    if (error || !usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
     }
-  );
+
+    res.json(usuario);
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener perfil' });
+  }
 };
