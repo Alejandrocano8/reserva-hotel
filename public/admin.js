@@ -91,7 +91,7 @@ function cargarHabitacionesAdmin() {
                     <td><span class="estado-badge ${estadoClass}">${habitacion.estado}</span></td>
                     <td>
                         <div class="action-buttons">
-                            <select onchange="cambiarEstadoHabitacion(${habitacion.id}, this.value)" class="btn-edit">
+                            <select onchange="cambiarEstadoHabitacion(${habitacion.id}, this.value)" class="action-select">
                                 <option value="">Cambiar estado</option>
                                 <option value="disponible">Disponible</option>
                                 <option value="ocupada">Ocupada</option>
@@ -185,7 +185,7 @@ function crearHabitacion(event) {
 
 // Cargar reservas
 function cargarReservasAdmin() {
-    const token = localStorage.getToken('token');
+    const token = localStorage.getItem('token');
 
     fetch(`${API_BASE_URL}/reservas/admin/todas`, {
         method: 'GET',
@@ -216,7 +216,7 @@ function cargarReservasAdmin() {
                     <td>${fechaFin}</td>
                     <td><span class="estado-badge ${estadoClass}">${reserva.estado}</span></td>
                     <td>
-                        <select onchange="cambiarEstadoReserva(${reserva.id}, this.value)" class="btn-edit">
+                        <select onchange="cambiarEstadoReserva(${reserva.id}, this.value)" class="action-select">
                             <option value="">Cambiar</option>
                             <option value="activa">Activa</option>
                             <option value="completada">Completada</option>

@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 const DB_PATH = path.join(__dirname, '../database.db');
 
@@ -62,6 +63,18 @@ function initializeDatabase() {
       estado TEXT DEFAULT 'programado',
       FOREIGN KEY(habitacion_id) REFERENCES habitaciones(id)
     )`);
+
+    // Crear usuario admin por defecto si no existe
+    db.get("SELECT * FROM usuarios WHERE rol = 'admin'", (err, row) => {
+      if (!err && !row) {
+        const adminPassword = bcrypt.hashSync('admin123', 10);
+        db.run(
+          "INSERT INTO usuarios (nombre, email, contraseña, teléfono, rol) VALUES ('Administrador', 'admin@hotel.com', ?, '0000000000', 'admin')",
+          [adminPassword]
+        );
+        console.log('Usuario admin por defecto creado: admin@hotel.com / admin123');
+      }
+    });
 
     console.log('Database tables initialized');
   });
