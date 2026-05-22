@@ -9,5 +9,6 @@ router.get('/reporte/habitaciones', verifyAdmin, adminController.obtenerReporteH
 router.get('/reporte/usuarios', verifyAdmin, adminController.obtenerReporteUsuarios);
 router.post('/mantenimiento', verifyAdmin, adminController.registrarMantenimiento);
 router.put('/mantenimiento/:id/completar', verifyAdmin, adminController.completarMantenimiento);
+router.delete('/usuarios/:id', verifyAdmin, adminController.eliminarUsuario);
 
 module.exports = router;

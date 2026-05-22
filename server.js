@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const os = require('os');
 
 // Importar rutas
 const usuarioRoutes = require('./routes/usuarioRoutes');
@@ -47,6 +48,21 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+function getLocalIP() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return 'localhost';
+}
+
+const localIP = getLocalIP();
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n🚀 Servidor ejecutándose en:`);
+  console.log(`   Local: http://localhost:${PORT}`);
+  console.log(`   Red: http://${localIP}:${PORT}\n`);
 });

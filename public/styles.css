@@ -585,6 +585,8 @@ tr:hover td { background-color: #f8fafc; }
     transition: var(--transition);
     font-weight: 600;
 }
+.btn-delete { background-color: var(--danger); }
+.btn-delete:hover { background-color: #dc2626; transform: translateY(-2px); }
 
 /* Footer */
 .footer {

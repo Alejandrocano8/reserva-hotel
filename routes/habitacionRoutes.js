@@ -12,5 +12,6 @@ router.get('/disponibles/search', habitacionController.obtenerHabitacionesDispon
 router.post('/', verifyAdmin, habitacionController.crearHabitacion);
 router.put('/:id/estado', verifyAdmin, habitacionController.actualizarEstadoHabitacion);
 router.get('/admin/resumen', verifyAdmin, habitacionController.obtenerResumenHabitaciones);
+router.delete('/:id', verifyAdmin, habitacionController.eliminarHabitacion);
 
 module.exports = router;

@@ -1,12 +1,5 @@
--- ============================================================
--- MIGRACIÓN COMPLETA PARA SUPABASE
--- Sistema de Reserva de Habitaciones
--- Copia y pega todo este SQL en Supabase Dashboard > SQL Editor
--- ============================================================
 
--- ============================================================
--- TABLA: usuarios
--- ============================================================
+
 CREATE TABLE IF NOT EXISTS usuarios (
   id SERIAL PRIMARY KEY,
   nombre VARCHAR(255) NOT NULL,
@@ -214,12 +207,12 @@ VALUES ('Administrador', 'admin@hotel.com', '$2a$10$5q0K1CTorS7llEZfSVJ.luvm6a9K
 ON CONFLICT (email) DO NOTHING;
 
 -- Insertar habitaciones de ejemplo
-INSERT INTO habitaciones (numero, tipo, capacidad, precio_noche, descripcion, estado)
+INSERT INTO habitaciones (numero, tipo, capacidad, precio_noche, descripcion, estado, imagen_url)
 VALUES
-  ('101', 'Individual', 1, 80.00, 'Habitación individual con vista al jardín', 'disponible'),
-  ('102', 'Individual', 1, 80.00, 'Habitación individual con aire acondicionado', 'disponible'),
-  ('201', 'Doble', 2, 120.00, 'Habitación doble con cama queen size', 'disponible'),
-  ('202', 'Doble', 2, 120.00, 'Habitación doble con balcón', 'disponible'),
-  ('301', 'Suite', 3, 200.00, 'Suite con sala de estar y jacuzzi', 'disponible'),
-  ('302', 'Suite', 3, 200.00, 'Suite presidencial con terraza', 'disponible')
+  ('101', 'Individual', 1, 80.00, 'Habitación individual con vista al jardín', 'disponible', 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500'),
+  ('102', 'Individual', 1, 80.00, 'Habitación individual con aire acondicionado', 'disponible', 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500'),
+  ('201', 'Doble', 2, 120.00, 'Habitación doble con cama queen size', 'disponible', 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500'),
+  ('202', 'Doble', 2, 120.00, 'Habitación doble con balcón', 'disponible', 'https://images.unsplash.com/photo-1522771739018-7c73b969a2b7?w=500'),
+  ('301', 'Suite', 3, 200.00, 'Suite con sala de estar y jacuzzi', 'disponible', 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500'),
+  ('302', 'Suite', 3, 200.00, 'Suite presidencial con terraza', 'disponible', 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500')
 ON CONFLICT (numero) DO NOTHING;

@@ -111,6 +111,22 @@ exports.actualizarEstadoHabitacion = async (req, res) => {
   }
 };
 
+exports.eliminarHabitacion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('habitaciones')
+      .delete()
+      .eq('id', id);
+
+    if (error) return res.status(500).json({ error: 'Error al eliminar habitación' });
+    res.json({ mensaje: 'Habitación eliminada correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al eliminar habitación' });
+  }
+};
+
 exports.obtenerResumenHabitaciones = async (req, res) => {
   try {
     const { data, error } = await supabase.rpc('obtener_resumen_habitaciones');

@@ -97,6 +97,7 @@ function cargarHabitacionesAdmin() {
                                 <option value="ocupada">Ocupada</option>
                                 <option value="mantenimiento">Mantenimiento</option>
                             </select>
+                            <button onclick="eliminarHabitacion(${habitacion.id})" class="btn-delete">Eliminar</button>
                         </div>
                     </td>
                 </tr>
@@ -136,6 +137,30 @@ function cambiarEstadoHabitacion(habitacionId, nuevoEstado) {
             alert('Error: ' + data.error);
         } else {
             alert('Estado actualizado');
+            cargarHabitacionesAdmin();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Eliminar habitación
+function eliminarHabitacion(habitacionId) {
+    if (!confirm('¿Estás seguro de eliminar esta habitación? Esta acción no se puede deshacer.')) return;
+
+    const token = localStorage.getItem('token');
+
+    fetch(`${API_BASE_URL}/habitaciones/${habitacionId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else {
+            alert('Habitación eliminada correctamente');
             cargarHabitacionesAdmin();
         }
     })
@@ -273,7 +298,7 @@ function cargarUsuariosAdmin() {
     .then(usuarios => {
         const table = document.getElementById('usuariosTable');
         let html = '<table>';
-        html += '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Reservas</th><th>Fecha Registro</th></tr></thead>';
+        html += '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Reservas</th><th>Fecha Registro</th><th>Acciones</th></tr></thead>';
         html += '<tbody>';
 
         usuarios.forEach(usuario => {
@@ -286,12 +311,39 @@ function cargarUsuariosAdmin() {
                     <td>${usuario.teléfono}</td>
                     <td>${usuario.total_reservas}</td>
                     <td>${fechaRegistro}</td>
+                    <td>
+                        <button onclick="eliminarUsuario(${usuario.id})" class="btn-delete">Eliminar</button>
+                    </td>
                 </tr>
             `;
         });
 
         html += '</tbody></table>';
         table.innerHTML = html;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Eliminar usuario
+function eliminarUsuario(usuarioId) {
+    if (!confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.')) return;
+
+    const token = localStorage.getItem('token');
+
+    fetch(`${API_BASE_URL}/admin/usuarios/${usuarioId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else {
+            alert('Usuario eliminado correctamente');
+            cargarUsuariosAdmin();
+        }
     })
     .catch(error => console.error('Error:', error));
 }

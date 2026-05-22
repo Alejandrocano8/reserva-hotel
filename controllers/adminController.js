@@ -63,6 +63,22 @@ exports.registrarMantenimiento = async (req, res) => {
   }
 };
 
+exports.eliminarUsuario = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { error } = await supabase
+      .from('usuarios')
+      .delete()
+      .eq('id', id);
+
+    if (error) return res.status(500).json({ error: 'Error al eliminar usuario' });
+    res.json({ mensaje: 'Usuario eliminado correctamente' });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al eliminar usuario' });
+  }
+};
+
 exports.completarMantenimiento = async (req, res) => {
   try {
     const { id } = req.params;

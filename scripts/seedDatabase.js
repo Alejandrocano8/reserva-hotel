@@ -46,6 +46,20 @@ setTimeout(() => {
         { numero: '203', tipo: 'individual', capacidad: 1, precio: 52, descripcion: 'Habitación individual económica', estado: 'disponible' },
     ];
 
+    function obtenerImagen(numero, tipo) {
+        const imagenes = {
+            '101': 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500',
+            '102': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=500',
+            '103': 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500',
+            '104': 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500',
+            '105': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500',
+            '201': 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=500',
+            '202': 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500',
+            '203': 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500',
+        };
+        return imagenes[numero] || `https://via.placeholder.com/400x300?text=Habitacion+${numero}`;
+    }
+
     habitaciones.forEach(hab => {
         db.run(
             'INSERT OR IGNORE INTO habitaciones (numero, tipo, capacidad, precio_noche, descripcion, imagen_url, estado) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -55,7 +69,7 @@ setTimeout(() => {
                 hab.capacidad,
                 hab.precio,
                 hab.descripcion,
-                `https://via.placeholder.com/400x300?text=Habitacion+${hab.numero}`,
+                obtenerImagen(hab.numero, hab.tipo),
                 hab.estado
             ],
             (err) => {
